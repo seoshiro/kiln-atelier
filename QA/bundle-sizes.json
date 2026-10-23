@@ -1,0 +1,96 @@
+{
+  "sourceSha": "cccfd6c12d279b038faca6f7cf2ead4fff94a709",
+  "method": "Node gzipSync on local production bytes, all 15 byte hashes matched the deployed initial manifest. Gzip byte counts exclude transfer headers.",
+  "files": [
+    {
+      "path": "index.html",
+      "rawBytes": 682,
+      "gzipBytes": 421,
+      "sha256": "b9c8871ca9585cf8d6ef2437ba8875010937e0e09c2c447fb2c3ab7f017c286f"
+    },
+    {
+      "path": "kiln.svg",
+      "rawBytes": 264,
+      "gzipBytes": 205,
+      "sha256": "899e4f68f7734383d9766a4e1dc507a21e6ba7d670b669ec9100e864191a0940"
+    },
+    {
+      "path": "licenses/Cormorant-Garamond-OFL.txt",
+      "rawBytes": 4504,
+      "gzipBytes": 1999,
+      "sha256": "732f37009943e7f4378cf37113c9bcc4716af002a8583511aa91ed5d37683e73"
+    },
+    {
+      "path": "licenses/DM-Sans-OFL.txt",
+      "rawBytes": 4502,
+      "gzipBytes": 2006,
+      "sha256": "6fbd040a29c2037a765dfb9f2561e9965b5c95c6dcb5dce516089d63d5f17af7"
+    },
+    {
+      "path": "licenses/React-DOM-MIT.txt",
+      "rawBytes": 1088,
+      "gzipBytes": 661,
+      "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93"
+    },
+    {
+      "path": "licenses/React-MIT.txt",
+      "rawBytes": 1088,
+      "gzipBytes": 661,
+      "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93"
+    },
+    {
+      "path": "licenses/Three-MIT.txt",
+      "rawBytes": 1081,
+      "gzipBytes": 667,
+      "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+    },
+    {
+      "path": "assets/Atelier-CCQm6YKy.js",
+      "rawBytes": 17902,
+      "gzipBytes": 6583,
+      "sha256": "4fbccaeb415b910d2ae03a1e438897a829699928b1663302c97e2595373086bb"
+    },
+    {
+      "path": "assets/Atelier-wFVCqpJm.css",
+      "rawBytes": 10430,
+      "gzipBytes": 2684,
+      "sha256": "18c2ab63c340eb65b273b43ef3b05da3187c03b69d340f8c0e3a178d647f997e"
+    },
+    {
+      "path": "assets/cormorant-garamond-latin-wght-italic-C-nL33vl.woff2",
+      "rawBytes": 39260,
+      "gzipBytes": 39293,
+      "sha256": "6f2f5c3b1abc3d0bb035a927f66a90ca873f94fc31c4966c8d024142c2036e55"
+    },
+    {
+      "path": "assets/cormorant-garamond-latin-wght-normal-CUoBjw-S.woff2",
+      "rawBytes": 37640,
+      "gzipBytes": 37673,
+      "sha256": "d80df8ff5aecd299a61549f9e29ab1ed0b9b05f4ea71d50fe978e07d5240b235"
+    },
+    {
+      "path": "assets/dm-sans-latin-wght-normal-Xz1IZZA0.woff2",
+      "rawBytes": 36932,
+      "gzipBytes": 36852,
+      "sha256": "9fea608a947e67020c33cad9a6fe3d60c54119dfb8cff87768a8117a15ed7543"
+    },
+    {
+      "path": "assets/index-JvvuV2m7.css",
+      "rawBytes": 16101,
+      "gzipBytes": 4507,
+      "sha256": "8bfa57be6aa7ab5a9cf08c0e9890951c3bd2eedd7fea6d80e8fae0aaf3c71329"
+    },
+    {
+      "path": "assets/index-_xtR21GP.js",
+      "rawBytes": 235942,
+      "gzipBytes": 73461,
+      "sha256": "591d746ef5a78119cbc6c87fc92548904c9d21b7ffe0bcbdbdf011f3053f9375"
+    },
+    {
+      "path": "assets/three.module-CDJkRhUe.js",
+      "rawBytes": 736437,
+      "gzipBytes": 185277,
+      "sha256": "c6fdd1cc24057930d6c66210c2c560ecbf0852a36a9142f9f3cc9a2c73019935"
+    }
+  ]
+}

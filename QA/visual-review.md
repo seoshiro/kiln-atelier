@@ -43,3 +43,23 @@ Independent visual inspection: strong asymmetric editorial hero; tactile authore
 - The independent command `npx --yes @21st-dev/cli review src --json` was denied by automatic approval review because it would download/execute an untrusted npm package and authorization for that exact third-party execution was considered insufficient. It was not retried or invoked indirectly. Parent's earlier successful initial CLI findings are separate evidence; no final CLI pass is claimed here. Playwright, axe, source and screenshot reviews were completed as safe substitutes.
 
 Local environment history: initial sandbox browser navigation failed with ERR_NETWORK_ACCESS_DENIED, followed by an inaccessible server namespace. The integrator restarted the authorized server in the permitted network environment, endpoint 200 was confirmed, and all app checks then ran against that healthy endpoint. Failed pre-navigation attempts are not treated as app test results.
+
+## Independent live release check
+
+**PASS — 18 of 18 unchanged browser tests** against [the public GitHub Pages site](https://seoshiro.github.io/kiln-atelier/), completed 23 October 2026 at approximately 22:44 UTC. Chrome 155.0.8059.86 on Windows, one worker, no retries, approximately 1.1 minutes. Environment: `BASE_URL=https://seoshiro.github.io/kiln-atelier/`, `QA_PREFIX=live`.
+
+An independent public `release.json` fetch returned HTTP 200 and SHA **cccfd6c12d279b038faca6f7cf2ead4fff94a709**, with 15 asset hashes in its manifest. This is the exact application release represented by the live screenshots. The integrator's separate verifier checked all 15 SHA-256 asset hashes; release identity history is recorded in RELEASE.md.
+
+The verified source also passed [GitHub Actions run 40034988053](https://github.com/seoshiro/kiln-atelier/actions/runs/40034988053): 41 unit tests and 18 browser tests before deployment. CI evidence is distinct from this independent live Windows run.
+
+All required live viewport/axe checks passed with zero violations. Keyboard, bounded parameters, profile/glaze/rotation, reset/undo, SVG/JSON metadata fidelity, repeat/cancel downloads, positive WebGL draw followed by idle/offscreen/simulated-hidden gating, unavailable-WebGL fallback and actual context loss all passed. No app exceptions or failed resource responses occurred on the main live journey.
+
+Live visual review inspected these actual screenshots after test completion:
+
+- [Desktop hero](screenshots/live-desktop-hero.png) and [interactive atelier](screenshots/live-desktop-atelier.png): coherent final layout and materials.
+- [Mobile hero](screenshots/live-mobile-hero.png), [mobile study](screenshots/live-mobile-atelier.png), [mobile controls](screenshots/live-mobile-controls.png): readable controls and complete sculpture.
+- [Sol card](screenshots/live-export-sol.png) and [Moon card](screenshots/live-export-moon.png): corrected wheel marks, grounded shadows, clear long labels.
+- [Maximum Fold](screenshots/live-extreme-fold.png): no clipping at maximum proportions.
+- [No-WebGL illustrated preview](screenshots/live-webgl-fallback.png): useful visual fallback alongside enabled controls.
+
+The full five-size live pages and all three maximum forms/cards are also in `QA/screenshots/live-*.png`. No unresolved P1/P2 or important P3 findings remain in the checked scope. OS-level tab backgrounding and physical mobile devices remain outside this lab check, as described above.

@@ -19,7 +19,15 @@ The authoritative source SHA and SHA-256 hashes of all deployed files are served
 
 GitHub Actions must pass lint, typecheck, all 41 units, production build and the full installed-Chrome browser suite before the free Pages deployment job. The workflow uses one Playwright worker and runner-provided Chrome, with no apt browser installation.
 
-Actual workflow, post-deployment SHA/hash verification, live browser results and release screenshots are added after deployment. They are not claimed before execution.
+Initial production release: `cccfd6c12d279b038faca6f7cf2ead4fff94a709`.
+
+- [CI and deployment run 40034988053](https://github.com/seoshiro/kiln-atelier/actions/runs/40034988053): SUCCESS. Actual logs show 41 units and 18 browser tests passed (52.7 seconds), using one installed Chrome worker. Lint, typecheck and build also passed; deploy completed.
+- `node scripts/verify-live.mjs`: PASS against that exact SHA; all 15 served asset SHA-256 hashes matched the deployed manifest.
+- Independent live browser regression and screenshots are recorded in `visual-review.md`; its live result remains separate from local and CI evidence.
+- Independent live regression: PASS, the unchanged 18-test suite, one Windows Chrome 155 worker, no retries, about 1.1 minutes. Live hero, mobile, maximum forms, fallback and rendered downloaded cards were inspected. All five live viewport axe scans had zero violations.
+- [Final built file sizes](bundle-sizes.json) include raw and Node gzip byte counts. All 15 local production file hashes matched the deployed CI manifest before recording these sizes. Earlier browser timing measurements in the technical report retain their stated candidate/workload conditions.
+
+The evidence archive update changes QA documents and screenshots only. The latest exact source identity remains the served manifest; every main-branch push runs the complete verification/deployment workflow. Final release identity and final live verification are also recorded in the GitHub release notes.
 
 ## Limits
 

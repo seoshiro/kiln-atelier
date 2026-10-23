@@ -1,0 +1,21 @@
+{
+  "schema": "kiln.release/v1",
+  "sha": "cccfd6c12d279b038faca6f7cf2ead4fff94a709",
+  "assets": {
+    "index.html": "b9c8871ca9585cf8d6ef2437ba8875010937e0e09c2c447fb2c3ab7f017c286f",
+    "kiln.svg": "899e4f68f7734383d9766a4e1dc507a21e6ba7d670b669ec9100e864191a0940",
+    "licenses/Cormorant-Garamond-OFL.txt": "732f37009943e7f4378cf37113c9bcc4716af002a8583511aa91ed5d37683e73",
+    "licenses/DM-Sans-OFL.txt": "6fbd040a29c2037a765dfb9f2561e9965b5c95c6dcb5dce516089d63d5f17af7",
+    "licenses/React-DOM-MIT.txt": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93",
+    "licenses/React-MIT.txt": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93",
+    "licenses/Three-MIT.txt": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc",
+    "assets/Atelier-CCQm6YKy.js": "4fbccaeb415b910d2ae03a1e438897a829699928b1663302c97e2595373086bb",
+    "assets/Atelier-wFVCqpJm.css": "18c2ab63c340eb65b273b43ef3b05da3187c03b69d340f8c0e3a178d647f997e",
+    "assets/cormorant-garamond-latin-wght-italic-C-nL33vl.woff2": "6f2f5c3b1abc3d0bb035a927f66a90ca873f94fc31c4966c8d024142c2036e55",
+    "assets/cormorant-garamond-latin-wght-normal-CUoBjw-S.woff2": "d80df8ff5aecd299a61549f9e29ab1ed0b9b05f4ea71d50fe978e07d5240b235",
+    "assets/dm-sans-latin-wght-normal-Xz1IZZA0.woff2": "9fea608a947e67020c33cad9a6fe3d60c54119dfb8cff87768a8117a15ed7543",
+    "assets/index-JvvuV2m7.css": "8bfa57be6aa7ab5a9cf08c0e9890951c3bd2eedd7fea6d80e8fae0aaf3c71329",
+    "assets/index-_xtR21GP.js": "591d746ef5a78119cbc6c87fc92548904c9d21b7ffe0bcbdbdf011f3053f9375",
+    "assets/three.module-CDJkRhUe.js": "c6fdd1cc24057930d6c66210c2c560ecbf0852a36a9142f9f3cc9a2c73019935"
+  }
+}

@@ -4,6 +4,8 @@ An original fictional ceramics studio and interactive digital atelier. Warm pape
 
 **[Open the studio](https://seoshiro.github.io/kiln-atelier/)** · [Public QA evidence](QA/README.md) · [Release screenshots](QA/screenshots/)
 
+![KILN, captured in the published browser release](QA/screenshots/live-desktop-hero.png)
+
 ## The atelier
 
 Choose Sol, Fold or Moon; adjust height, fullness and lip opening within deliberately limited bounds; select one of four glazes; drag or use keyboard-accessible buttons to rotate. Undo restores an adjustment and Reset returns the complete default study.
