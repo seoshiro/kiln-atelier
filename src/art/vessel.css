@@ -1,0 +1,7 @@
+.vessel-viewer{position:relative;width:100%;height:100%;min-height:360px;touch-action:pan-y;cursor:grab;isolation:isolate}
+.vessel-viewer:active{cursor:grabbing}
+.vessel-viewer-canvas,.vessel-viewer-fallback{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:contain}
+.vessel-viewer-fallback{pointer-events:none}
+.vessel-viewer .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.vessel-viewer-mode{position:absolute;bottom:14px;left:0;right:0;text-align:center;font-family:var(--font-sans, sans-serif);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink,#252844);pointer-events:none}
+@media(max-width:480px){.vessel-viewer{min-height:320px}.vessel-viewer-mode{font-size:9px}}

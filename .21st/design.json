@@ -1,0 +1,6 @@
+{
+  "name": "KILN",
+  "direction": "Tactile ceramic editorial: warm uncoated paper, ink indigo, burnt terracotta, sculptural authored vessels and asymmetric magazine typography.",
+  "decisions": ["Original procedural ceramic geometry, no stock assets or commercial components", "Serif display with restrained utilitarian sans", "Art concept and downloadable personal design study, no commerce"],
+  "tokens": {"paper":"#f0e9dc","ink":"#252844","clay":"#a64b32","line":"#c8beae"}
+}
