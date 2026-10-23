@@ -101,20 +101,23 @@ export function VesselViewer({ design, onRotate, onRotateEnd }: VesselViewerProp
   useEffect(() => { stateRef.current = design; runtimeRef.current?.update(design); }, [design]);
   useEffect(() => {
     const host = hostRef.current!, canvas = canvasRef.current!;
-    let alive = true, visible = false, lost = false, starting = false;
+    let alive = true, visible = false, lost = false, starting = false, initialization = 0;
     const canRender = () => alive && visible && !document.hidden && !lost;
     const init = async () => {
-      if (starting || runtimeRef.current) return;
+      if (!alive || lost || starting || runtimeRef.current) return;
+      const generation = ++initialization;
       starting = true;
       try {
         const context = canvas.getContext('webgl2', { antialias: true, alpha: true, powerPreference: 'low-power' });
         if (!context) { if (alive) setMode('fallback'); return; }
         const THREE = await import('three');
-        if (!alive) return;
+        if (!alive || lost || context.isContextLost() || generation !== initialization) return;
         runtimeRef.current = createRuntime(THREE, host, canvas, context, stateRef.current, canRender);
         setMode('webgl');
       } catch {
-        if (alive) { host.dataset.viewer = 'fallback'; setMode('fallback'); }
+        if (alive && generation === initialization) { host.dataset.viewer = 'fallback'; setMode('fallback'); }
+      } finally {
+        if (generation === initialization) starting = false;
       }
     };
     const observer = new IntersectionObserver(entries => {
@@ -125,16 +128,22 @@ export function VesselViewer({ design, onRotate, onRotateEnd }: VesselViewerProp
     observer.observe(host);
     const resize = new ResizeObserver(() => runtimeRef.current?.render()); resize.observe(host);
     const visibility = () => runtimeRef.current?.render();
-    const contextLost = (event: Event) => { event.preventDefault(); lost = true; host.dataset.viewer = 'fallback'; setMode('fallback'); };
+    const contextLost = (event: Event) => {
+      event.preventDefault(); lost = true; ++initialization; starting = false;
+      // Release listeners and caches while the native context is lost, before a
+      // restored context makes the old generation's GPU handles invalid to delete.
+      runtimeRef.current?.dispose(); runtimeRef.current = null;
+      host.dataset.viewer = 'fallback'; setMode('fallback');
+    };
     const contextRestored = () => {
       if (!alive) return;
-      lost = false; runtimeRef.current?.dispose(); runtimeRef.current = null; starting = false; void init();
+      lost = false; void init();
     };
     document.addEventListener('visibilitychange', visibility);
     canvas.addEventListener('webglcontextlost', contextLost);
     canvas.addEventListener('webglcontextrestored', contextRestored);
     return () => {
-      alive = false; observer.disconnect(); resize.disconnect(); document.removeEventListener('visibilitychange', visibility);
+      alive = false; ++initialization; observer.disconnect(); resize.disconnect(); document.removeEventListener('visibilitychange', visibility);
       canvas.removeEventListener('webglcontextlost', contextLost); canvas.removeEventListener('webglcontextrestored', contextRestored);
       runtimeRef.current?.dispose(); runtimeRef.current = null;
     };

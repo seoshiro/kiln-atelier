@@ -361,3 +361,43 @@ test('WebGL context loss reveals the current illustrated study without losing co
   expect(after.design.profile).toBe('fold');
   expect(after.design.glaze).toBe('clay');
 });
+
+test('repeated real WebGL recovery preserves current designs without stale GPU deletion', async ({ page }, testInfo) => {
+  const diagnostics: { type: string; text: string }[] = [];
+  page.on('pageerror', error => diagnostics.push({ type: 'pageerror', text: error.message }));
+  page.on('console', message => {
+    if (['warning', 'error'].includes(message.type())) diagnostics.push({ type: message.type(), text: message.text() });
+  });
+  await ready(page);
+  await atelier(page);
+  const viewer = page.locator('.vessel-viewer');
+  for (let cycle = 0; cycle < 3; cycle++) {
+    await expect(viewer).toHaveAttribute('data-viewer', 'webgl');
+    const supported = await page.locator('.vessel-viewer canvas').evaluate(canvas => {
+      const extension = (canvas as HTMLCanvasElement).getContext('webgl2')?.getExtension('WEBGL_lose_context');
+      Object.assign(window, { __kilnRecoveryExtension: extension });
+      extension?.loseContext();
+      return Boolean(extension);
+    });
+    expect(supported).toBe(true);
+    await expect(viewer).toHaveAttribute('data-viewer', 'fallback');
+    if (cycle !== 1) {
+      await page.getByRole('button', { name: /Fold$/ }).click();
+      await page.getByRole('button', { name: 'Burnt earth', exact: true }).click();
+    }
+    if (cycle === 2) {
+      await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
+      await expect(viewer).toHaveAttribute('data-in-view', 'false');
+    }
+    await page.evaluate(() => (window as unknown as { __kilnRecoveryExtension: WEBGL_lose_context }).__kilnRecoveryExtension.restoreContext());
+    await expect(viewer).toHaveAttribute('data-viewer', 'webgl');
+    await viewer.scrollIntoViewIfNeeded();
+    await page.getByRole('button', { name: cycle === 1 ? /Moon$/ : /Sol$/ }).click();
+    await page.getByRole('button', { name: cycle === 1 ? 'Oat milk' : 'Olive ash', exact: true }).click();
+    const exported = JSON.parse((await downloadText(page, 'Download JSON')).text);
+    expect(exported.design.profile).toBe(cycle === 1 ? 'moon' : 'sol');
+    expect(exported.design.glaze).toBe(cycle === 1 ? 'chalk' : 'moss');
+  }
+  await testInfo.attach('context-recovery-diagnostics.json', { body: JSON.stringify(diagnostics, null, 2), contentType: 'application/json' });
+  expect(diagnostics).toEqual([]);
+});
