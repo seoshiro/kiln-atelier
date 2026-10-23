@@ -121,6 +121,21 @@ test('WebGL unavailable leaves a usable visual and export controls', async ({ pa
   await saveShot(page, 'webgl-fallback', false);
 });
 
+test('interrupted optional renderer assets preserve atelier controls and current exports', async ({ page }) => {
+  await page.route(/\/assets\/(?:Atelier|three\.module)-[^/]+\.js(?:\?.*)?$/, route => route.abort('failed'));
+  await ready(page);
+  const section = await atelier(page);
+  await expect(section.locator('.vessel-viewer')).toHaveAttribute('data-viewer', 'fallback');
+  await section.getByRole('button', { name: /Fold/ }).click();
+  await expect(section.getByRole('button', { name: /Fold/ })).toHaveAttribute('aria-pressed', 'true');
+  const downloaded = page.waitForEvent('download');
+  await section.getByRole('button', { name: /Download JSON/ }).click();
+  const download = await downloaded;
+  const contents = JSON.parse(await readFile((await download.path())!, 'utf8'));
+  expect(contents.design.profile).toBe('fold');
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+});
+
 test('primary interactive targets meet the touch target contract', async ({ page }) => {
   await ready(page);
   const section = await atelier(page);

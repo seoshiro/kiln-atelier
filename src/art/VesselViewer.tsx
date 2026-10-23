@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { VesselArt } from './VesselArt';
 import { GLAZES, normalizeDesign, outerProfile, profilePoints } from './model';
+import { fillGlazePixels } from './glaze-texture';
 import type { DesignState } from './model';
 import type * as Three from 'three';
 import './vessel.css';
@@ -15,19 +16,7 @@ function paintGlaze(THREE: typeof Three, state: DesignState): Three.CanvasTextur
   const base = GLAZES.find(({ id }) => id === state.glaze)!.color;
   const color = new THREE.Color(base);
   const image = context.createImageData(512, 512);
-  let seed = 3271;
-  const random = () => { seed = (seed*1664525+1013904223) >>> 0; return seed / 4294967296; };
-  for (let y = 0; y < 512; y++) for (let x = 0; x < 512; x++) {
-    const noise = (random()-.5)*.105;
-    const wheel = Math.sin(y*.76)*.009 + Math.sin(y*.163)*.012;
-    const brush = Math.sin(x*.037+Math.sin(y*.014)*1.5)*.022;
-    const wash = .88+noise+wheel+brush;
-    const i = (y*512+x)*4;
-    image.data[i] = Math.min(255, Math.pow(color.r, 1/2.2)*255*wash);
-    image.data[i+1] = Math.min(255, Math.pow(color.g, 1/2.2)*255*wash);
-    image.data[i+2] = Math.min(255, Math.pow(color.b, 1/2.2)*255*wash);
-    image.data[i+3] = 255;
-  }
+  fillGlazePixels(image.data, color);
   context.putImageData(image, 0, 0);
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;

@@ -1,8 +1,7 @@
-import { lazy, Suspense } from 'react';
+import Atelier from './atelier/Atelier';
 import { VesselArt } from './art/VesselArt';
 import { DEFAULT_DESIGN, GLAZES, PROFILES } from './art/model';
 
-const Atelier = lazy(() => import('./atelier/Atelier'));
 const Arrow = ({diagonal = false}: {diagonal?: boolean}) => <span aria-hidden="true">{diagonal ? '↗' : '↗'}</span>;
 
 function StudioMark({className = ''}: {className?: string}) {
@@ -52,7 +51,7 @@ function App() {
 
       <section className="glazes section-shell" aria-labelledby="glazes-title"><div className="section-heading"><div><p className="eyebrow">04 / THE GLAZE NOTES</p><h2 id="glazes-title">Colour you can <em>feel.</em></h2></div><p className="section-intro">Four digital finishes, inspired by<br/>minerals, ash and the evening sky.</p></div><div className="glaze-grid">{GLAZES.map((glaze,i)=><div className="glaze-study" key={glaze.id}><div className="glaze-tile" style={{'--glaze':glaze.color} as React.CSSProperties}><span aria-hidden="true">✳</span></div><div><span className="glaze-index">G / 0{i+1}</span><h3>{glaze.name}</h3><p>{glaze.note}</p></div></div>)}</div></section>
 
-      <Suspense fallback={<section className="atelier-loading" id="atelier"><p>Opening the atelier…</p></section>}><Atelier/></Suspense>
+      <Atelier/>
 
       <section className="closing section-shell" aria-labelledby="closing-title"><p className="eyebrow">NO PERFECT ANSWERS. JUST GOOD CURIOSITY.</p><h2 id="closing-title">Make room<br/>for <em>possibility.</em><span aria-hidden="true">✳</span></h2><div className="closing-bottom"><StudioMark/><p>A small, fictional studio.<br/>A place to try something.</p><a href="#atelier">Back to the atelier <Arrow/></a></div></section>
     </main>
