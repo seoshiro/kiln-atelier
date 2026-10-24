@@ -1,0 +1,18 @@
+.ui-button { flex-shrink: 0; min-height: 44px; touch-action: manipulation; transition: background-color 150ms ease, color 150ms ease, opacity 150ms ease; }
+.ui-button:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+.ui-button:disabled { pointer-events: none; opacity: .5; }
+.ui-button svg { pointer-events: none; flex-shrink: 0; }
+.slide-text-button { overflow: hidden; }
+.slide-text-window { display: inline-grid; overflow: hidden; line-height: 1.5; }
+.slide-text-track { display: grid; justify-items: start; transition: transform 180ms cubic-bezier(.77,0,.175,1); }
+.slide-text-label, .slide-text-copy { grid-column: 1; grid-row: 1; transition: opacity 180ms ease; }
+.slide-text-copy { transform: translateY(100%); opacity: 0; }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .slide-text-button:hover .slide-text-track { transform: translateY(-100%); }
+  .slide-text-button:hover .slide-text-label { opacity: 0; }
+  .slide-text-button:hover .slide-text-copy { opacity: 1; }
+  .slide-text-button:active { transform: scale(.98); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ui-button, .slide-text-track, .slide-text-label, .slide-text-copy { transition: none; }
+}

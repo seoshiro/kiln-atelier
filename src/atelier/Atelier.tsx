@@ -6,6 +6,7 @@ import { VesselViewer } from '../art/VesselViewer';
 import { atelierReducer, createHistory } from './state';
 import { createDesignJSON, createDesignSVG, designFilename, downloadFile } from './export';
 import './atelier.css';
+import { SlideTextButton } from '../components/SlideTextButton';
 
 const SHAPE_CONTROLS = [
   { key: 'height', name: 'Height', low: 'Grounded', high: 'Elongated' },
@@ -73,7 +74,7 @@ export default function Atelier() {
         <fieldset className="atelier-fieldset"><legend><span>03</span> Give it a surface</legend><div className="atelier-glazes">{GLAZES.map((item) => <button type="button" key={item.id} aria-label={item.name} aria-pressed={design.glaze === item.id} className={design.glaze === item.id ? 'is-selected' : ''} onClick={() => dispatch({ type: 'patch', patch: { glaze: item.id } })}><span className="atelier-swatch" style={{ backgroundColor: item.color }}><svg aria-hidden="true" viewBox="0 0 16 16" width="16" height="16"><path d="m3 8 3 3 7-7" fill="none" stroke="currentColor" strokeWidth="1.6" /></svg></span><span>{item.name}</span></button>)}</div><p className="atelier-control-note">{glaze.note}</p></fieldset>
 
         <div className="atelier-history"><button type="button" disabled={!canUndo} onClick={() => { dispatch({ type: 'undo' }); setStatus('Last adjustment undone.'); }}><span aria-hidden="true">↶</span> Undo adjustment</button><button type="button" onClick={() => { dispatch({ type: 'reset' }); setStatus(`Design reset to ${PROFILES.find((item) => item.id === DEFAULT_DESIGN.profile)!.name} in ${GLAZES.find((item) => item.id === DEFAULT_DESIGN.glaze)!.name}, with original proportions.`); }}>Reset design <span aria-hidden="true">↺</span></button></div>
-        <div className="atelier-save"><p>Yours, to keep.</p><button type="button" className="atelier-download" onClick={() => exportDesign('svg')}>Download SVG card <Arrow direction="down" /></button><button type="button" className="atelier-json" onClick={() => exportDesign('json')}>Download JSON <Arrow direction="down" /></button><p className="atelier-export-note">SVG is a front-silhouette design card. JSON keeps your parameters and viewing rotation. Both are free, and made here in your browser.</p></div>
+        <div className="atelier-save"><p>Yours, to keep.</p><SlideTextButton className="atelier-download" variant="default" onClick={() => exportDesign('svg')} text="Download SVG card" icon={<Arrow direction="down" />} /><SlideTextButton className="atelier-json" variant="ghost" onClick={() => exportDesign('json')} text="Download JSON" icon={<Arrow direction="down" />} /><p className="atelier-export-note">SVG is a front-silhouette design card. JSON keeps your parameters and viewing rotation. Both are free, and made here in your browser.</p></div>
         <p className="atelier-status" role="status" aria-live="polite">{status}</p>
       </div>
     </div>
