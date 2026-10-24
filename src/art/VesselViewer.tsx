@@ -55,16 +55,19 @@ function createRuntime(THREE: typeof Three, host: HTMLDivElement, canvas: HTMLCa
   const shadow = new THREE.Mesh(shadowGeometry, shadowMaterial); shadow.rotation.x = -Math.PI/2; shadow.position.y = -.025;
   scene.add(shadow);
 
-  let current = initial, renderCount = 0, disposed = false;
+  let current = initial, renderCount = 0, disposed = false, drawingWidth = 0, drawingHeight = 0;
   const render = () => {
     if (disposed || !canRender()) return;
     const width = Math.max(1, host.clientWidth), height = Math.max(1, host.clientHeight);
-    renderer.setSize(width, height, false);
-    camera.aspect = width/height;
-    const fit = Math.max(1, .75/camera.aspect);
-    camera.position.set(5.2*fit, 1.7+2.3*fit, 7.2*fit);
-    camera.lookAt(0, 1.7, 0);
-    camera.updateProjectionMatrix();
+    if (drawingWidth !== width || drawingHeight !== height) {
+      renderer.setSize(width, height, false);
+      drawingWidth = width; drawingHeight = height;
+      camera.aspect = width/height;
+      const fit = Math.max(1, .75/camera.aspect);
+      camera.position.set(5.2*fit, 1.7+2.3*fit, 7.2*fit);
+      camera.lookAt(0, 1.7, 0);
+      camera.updateProjectionMatrix();
+    }
     renderer.render(scene, camera);
     host.dataset.renderCount = String(++renderCount);
   };

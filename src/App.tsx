@@ -1,5 +1,5 @@
 import Atelier from './atelier/Atelier';
-import { VesselArt } from './art/VesselArt';
+import { StudioVessel } from './art/StudioVessel';
 import { DEFAULT_DESIGN, GLAZES, PROFILES } from './art/model';
 
 const Arrow = ({diagonal = false}: {diagonal?: boolean}) => <span aria-hidden="true">{diagonal ? '↗' : '↗'}</span>;
@@ -27,7 +27,7 @@ function App() {
         <div className="hero-stage">
           <span className="stage-index">STUDY NO. 03 / MOON</span>
           <span className="stage-script" aria-hidden="true">a softer kind<br/>of permanence</span>
-          <div className="hero-sculpture"><VesselArt design={{...DEFAULT_DESIGN,profile:'moon'}} className="hero-vessel" label="Original sculptural Moon vessel in deep indigo glaze"/></div>
+          <div className="hero-sculpture"><StudioVessel design={{...DEFAULT_DESIGN,profile:'moon'}} priority className="hero-vessel" label="Original sculptural Moon vessel in deep indigo glaze"/></div>
           <span className="stage-cross" aria-hidden="true">+</span><p className="stage-caption">EARTHEN FORM<br/>DIGITAL EXPRESSION</p>
           <a href="#forms" className="stage-link">Meet the collection <span aria-hidden="true">↓</span></a>
         </div>
@@ -41,7 +41,7 @@ function App() {
 
       <section className="forms section-shell" id="forms" aria-labelledby="forms-title">
         <div className="section-heading"><div><p className="eyebrow">02 / THE FORM LIBRARY</p><h2 id="forms-title">Three starting points.<br/><em>Endless character.</em></h2></div><p className="section-intro">Not a collection to collect.<br/>A collection to make your own.</p></div>
-        <div className="form-grid">{PROFILES.map((profile,index) => <article className={`form-study form-study-${index}`} key={profile.id}><div className="form-art"><span className="form-number">0{index+1}</span><VesselArt design={{...DEFAULT_DESIGN,profile:profile.id,glaze:GLAZES[index === 0 ? 0 : index === 1 ? 2 : 1].id}} label={`${profile.name} ceramic form study`}/><span className="form-axis" aria-hidden="true">↕</span></div><div className="form-description"><h3>{profile.name}</h3><p>{profile.note}</p><a href="#atelier" aria-label={`Explore ${profile.name} and other forms in the atelier`}><Arrow/></a></div></article>)}</div>
+        <div className="form-grid">{PROFILES.map((profile,index) => <article className={`form-study form-study-${index}`} key={profile.id}><div className="form-art"><span className="form-number">0{index+1}</span><StudioVessel design={{...DEFAULT_DESIGN,profile:profile.id,glaze:GLAZES[index === 0 ? 0 : index === 1 ? 2 : 1].id}} label={`${profile.name} ceramic form study`}/><span className="form-axis" aria-hidden="true">↕</span></div><div className="form-description"><h3>{profile.name}</h3><p>{profile.note}</p><a href="#atelier" aria-label={`Explore ${profile.name} and other forms in the atelier`}><Arrow/></a></div></article>)}</div>
       </section>
 
       <section className="process" id="process" aria-labelledby="process-title">

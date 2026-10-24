@@ -10,3 +10,12 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;animation-iteration-count:1!important}.form-study:hover .form-art svg{transform:none}}
 .site-header nav a,.hero-foot a,.stage-link,.closing-bottom a{min-height:44px;display:inline-flex;align-items:center}
 .wordmark,.footer-wordmark{min-height:44px}
+
+/* Blender-rendered matte clay studies use the same editorial frames as the vector fallback. */
+.hero-sculpture,.form-art{grid-template-rows:minmax(0,1fr);grid-template-columns:minmax(0,1fr)}
+.studio-vessel{display:block;object-fit:contain;min-width:0;min-height:0}
+.hero-vessel.studio-vessel{max-height:100%;filter:drop-shadow(10px 18px 18px #54281733)}
+.form-art .studio-vessel{width:95%;height:95%;max-width:100%;max-height:100%;filter:drop-shadow(0 8px 9px #2528441c);transition:transform .4s}
+.form-study:hover .form-art .studio-vessel{transform:rotate(-4deg)}
+@media(max-width:640px){.form-art .studio-vessel{max-width:360px}}
+@media(prefers-reduced-motion:reduce){.form-study:hover .form-art .studio-vessel{transform:none}}

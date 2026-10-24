@@ -27,6 +27,50 @@ async function saveShot(page: Page, name: string, fullPage = true) {
   await page.screenshot({ path: join(screenshotDir, `${prefix}-${name}.png`), fullPage, animations: 'disabled' });
 }
 
+test('failed Blender studio images preserve vector illustrations and the working atelier', async ({ page }) => {
+  await page.route(/\/assets\/(?:moon-ink|sol-ink|fold-chalk|moon-clay)-[^/]+\.png$/, route => route.abort('failed'));
+  await ready(page);
+  await expect(page.locator('.hero-sculpture svg[role="img"]')).toBeVisible();
+  await page.locator('#forms').scrollIntoViewIfNeeded();
+  await expect(page.locator('.form-art svg[role="img"]')).toHaveCount(3);
+  const section = await atelier(page);
+  await section.getByRole('button', { name: '02 Fold', exact: true }).click();
+  await expect(section.getByRole('button', { name: '02 Fold', exact: true })).toHaveAttribute('aria-pressed', 'true');
+});
+
+test('vessel updates reuse the drawing buffer while responsive resizing still fits', async ({ page }) => {
+  await page.addInitScript(() => {
+    const counts = { writes: 0 };
+    Object.assign(window, { __drawingQA: counts });
+    for (const name of ['width', 'height']) {
+      const descriptor = Object.getOwnPropertyDescriptor(HTMLCanvasElement.prototype, name)!;
+      Object.defineProperty(HTMLCanvasElement.prototype, name, {
+        ...descriptor,
+        set(this: HTMLCanvasElement, value: number) {
+          if (this.classList.contains('vessel-viewer-canvas')) counts.writes++;
+          descriptor.set!.call(this, value);
+        },
+      });
+    }
+  });
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await ready(page);
+  const section = await atelier(page);
+  await expect(section.locator('.vessel-viewer')).toHaveAttribute('data-viewer', 'webgl');
+  const before = await section.locator('canvas').evaluate(canvas => [(canvas as HTMLCanvasElement).width, (canvas as HTMLCanvasElement).height]);
+  await page.evaluate(() => { (window as unknown as { __drawingQA: { writes: number } }).__drawingQA.writes = 0; });
+  const height = section.getByRole('slider', { name: 'Height', exact: true });
+  await height.focus();
+  for (let i = 0; i < 30; i++) await height.press('ArrowRight');
+  await expect(height).toHaveValue('130');
+  expect(await page.evaluate(() => (window as unknown as { __drawingQA: { writes: number } }).__drawingQA.writes)).toBe(0);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect.poll(() => page.evaluate(() => (window as unknown as { __drawingQA: { writes: number } }).__drawingQA.writes)).toBeGreaterThan(0);
+  const after = await section.locator('canvas').evaluate(canvas => [(canvas as HTMLCanvasElement).width, (canvas as HTMLCanvasElement).height]);
+  expect(after).not.toEqual(before);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
+
 test('page story renders, navigation works, and all local resources load', async ({ page }) => {
   const errors: string[] = [];
   const badResponses: string[] = [];
@@ -61,6 +105,17 @@ for (const viewport of [
     await page.setViewportSize(viewport);
     await ready(page);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    await page.locator('#forms').scrollIntoViewIfNeeded();
+    for (const frame of await page.locator('.form-art').all()) {
+      const image = frame.locator('img.studio-vessel');
+      await expect(image).toBeVisible();
+      await expect.poll(() => image.evaluate(node => (node as HTMLImageElement).complete && (node as HTMLImageElement).naturalWidth > 0)).toBe(true);
+      const frameBox = (await frame.boundingBox())!, imageBox = (await image.boundingBox())!;
+      expect(imageBox.y).toBeGreaterThanOrEqual(frameBox.y);
+      expect(imageBox.y + imageBox.height).toBeLessThanOrEqual(frameBox.y + frameBox.height + 1);
+      expect(imageBox.x).toBeGreaterThanOrEqual(frameBox.x);
+      expect(imageBox.x + imageBox.width).toBeLessThanOrEqual(frameBox.x + frameBox.width + 1);
+    }
     await atelier(page);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
     await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
